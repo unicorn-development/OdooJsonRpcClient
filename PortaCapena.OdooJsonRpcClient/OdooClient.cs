@@ -69,13 +69,13 @@ namespace PortaCapena.OdooJsonRpcClient
         
         #region Get
 
-        public async Task<OdooResult<T[]>> GetAsync<T>(OdooQuery query = null, OdooContext context = null, CancellationToken cancellationToken = default) where T : IOdooModel, new()
+        public Task<OdooResult<T[]>> GetAsync<T>(OdooQuery query = null, OdooContext context = null, CancellationToken cancellationToken = default) where T : IOdooModel, new()
         {
-            return await ExecuteWitrAccesDenideRetryAsync(userUid => GetAsync<T>(userUid, query, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
+            return ExecuteWithAccessDeniedRetryAsync(userUid => GetAsync<T>(userUid, query, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
         }
-        public async Task<OdooResult<T[]>> GetAsync<T>(int userUid, OdooQuery query = null, OdooContext context = null, CancellationToken cancellationToken = default) where T : IOdooModel, new()
+        public Task<OdooResult<T[]>> GetAsync<T>(int userUid, OdooQuery query = null, OdooContext context = null, CancellationToken cancellationToken = default) where T : IOdooModel, new()
         {
-            return await GetAsync<T>(Config, userUid, query, SelectContext(context, Config.Context), cancellationToken);
+            return GetAsync<T>(Config, userUid, query, SelectContext(context, Config.Context), cancellationToken);
         }
         public async Task<OdooResult<T[]>> GetAsync<T>(OdooConfig odooConfig, int userUid, OdooQuery query = null, OdooContext context = null, CancellationToken cancellationToken = default) where T : IOdooModel, new()
         {
@@ -84,31 +84,31 @@ namespace PortaCapena.OdooJsonRpcClient
             return await CallAndDeserializeAsync<T[]>(request, cancellationToken);
         }
 
-        public async Task<OdooResult<OdooDictionaryModel[]>> GetAsync(string tableName, OdooQuery query = null, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<OdooDictionaryModel[]>> GetAsync(string tableName, OdooQuery query = null, OdooContext context = null, CancellationToken cancellationToken = default)
         {
-            return await ExecuteWitrAccesDenideRetryAsync(userUid => GetAsync(tableName, userUid, query, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
+            return ExecuteWithAccessDeniedRetryAsync(userUid => GetAsync(tableName, userUid, query, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
         }
-        public async Task<OdooResult<OdooDictionaryModel[]>> GetAsync(string tableName, int userUid, OdooQuery query = null, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<OdooDictionaryModel[]>> GetAsync(string tableName, int userUid, OdooQuery query = null, OdooContext context = null, CancellationToken cancellationToken = default)
         {
-            return await GetAsync(tableName, Config, userUid, query, SelectContext(context, Config.Context), cancellationToken);
+            return GetAsync(tableName, Config, userUid, query, SelectContext(context, Config.Context), cancellationToken);
         }
-        public async Task<OdooResult<OdooDictionaryModel[]>> GetAsync(string tableName, OdooConfig odooConfig, int userUid, OdooQuery query = null, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<OdooDictionaryModel[]>> GetAsync(string tableName, OdooConfig odooConfig, int userUid, OdooQuery query = null, OdooContext context = null, CancellationToken cancellationToken = default)
         {
             var request = OdooRequestModel.SearchRead(odooConfig, userUid, tableName, query, context);
-            return await CallAndDeserializeAsync<OdooDictionaryModel[]>(request, cancellationToken);
+            return CallAndDeserializeAsync<OdooDictionaryModel[]>(request, cancellationToken);
         }
 
         #endregion
 
         #region Count 
 
-        public async Task<OdooResult<long>> GetCountAsync<T>(OdooQuery query = null, OdooContext context = null, CancellationToken cancellationToken = default) where T : IOdooModel, new()
+        public Task<OdooResult<long>> GetCountAsync<T>(OdooQuery query = null, OdooContext context = null, CancellationToken cancellationToken = default) where T : IOdooModel, new()
         {
-            return await ExecuteWitrAccesDenideRetryAsync(userUid => GetCountAsync<T>(userUid, query, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
+            return ExecuteWithAccessDeniedRetryAsync(userUid => GetCountAsync<T>(userUid, query, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
         }
-        public async Task<OdooResult<long>> GetCountAsync<T>(int userUid, OdooQuery query = null, OdooContext context = null, CancellationToken cancellationToken = default) where T : IOdooModel, new()
+        public Task<OdooResult<long>> GetCountAsync<T>(int userUid, OdooQuery query = null, OdooContext context = null, CancellationToken cancellationToken = default) where T : IOdooModel, new()
         {
-            return await GetCountAsync<T>(Config, userUid, query, SelectContext(context, Config.Context), cancellationToken);
+            return GetCountAsync<T>(Config, userUid, query, SelectContext(context, Config.Context), cancellationToken);
         }
         public async Task<OdooResult<long>> GetCountAsync<T>(OdooConfig odooConfig, int userUid, OdooQuery query = null, OdooContext context = null, CancellationToken cancellationToken = default) where T : IOdooModel, new()
         {
@@ -121,9 +121,9 @@ namespace PortaCapena.OdooJsonRpcClient
 
         #region Create
 
-        public async Task<OdooResult<long>> CreateAsync(IOdooCreateModel model, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<long>> CreateAsync(IOdooCreateModel model, OdooContext context = null, CancellationToken cancellationToken = default)
         {
-            return await ExecuteWitrAccesDenideRetryAsync(userUid => CreateAsync(Config, userUid, model, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
+            return ExecuteWithAccessDeniedRetryAsync(userUid => CreateAsync(Config, userUid, model, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
         }
         public async Task<OdooResult<long>> CreateAsync(OdooConfig odooConfig, int userUid, IOdooCreateModel model, OdooContext context = null, CancellationToken cancellationToken = default)
         {
@@ -131,9 +131,9 @@ namespace PortaCapena.OdooJsonRpcClient
             var result = await CallAndDeserializeAsync<long>(request, cancellationToken);
             return result.Succeed ? result.ToResult(result.Value) : OdooResult<long>.FailedResult(result);
         }
-        public async Task<OdooResult<long>> CreateAsync(OdooDictionaryModel model, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<long>> CreateAsync(OdooDictionaryModel model, OdooContext context = null, CancellationToken cancellationToken = default)
         {
-            return await ExecuteWitrAccesDenideRetryAsync(userUid => CreateAsync(Config, userUid, model, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
+            return ExecuteWithAccessDeniedRetryAsync(userUid => CreateAsync(Config, userUid, model, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
         }
         public async Task<OdooResult<long>> CreateAsync(OdooConfig odooConfig, int userUid, OdooDictionaryModel model, OdooContext context = null, CancellationToken cancellationToken = default)
         {
@@ -142,9 +142,9 @@ namespace PortaCapena.OdooJsonRpcClient
             return result.Succeed ? result.ToResult(result.Value) : OdooResult<long>.FailedResult(result);
         }
 
-        public async Task<OdooResult<long[]>> CreateAsync(IEnumerable<IOdooCreateModel> models, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<long[]>> CreateAsync(IEnumerable<IOdooCreateModel> models, OdooContext context = null, CancellationToken cancellationToken = default)
         {
-            return await ExecuteWitrAccesDenideRetryAsync(userUid => CreateAsync(Config, userUid, models, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
+            return ExecuteWithAccessDeniedRetryAsync(userUid => CreateAsync(Config, userUid, models, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
         }
         public async Task<OdooResult<long[]>> CreateAsync(OdooConfig odooConfig, int userUid, IEnumerable<IOdooCreateModel> models, OdooContext context = null, CancellationToken cancellationToken = default)
         {
@@ -152,9 +152,9 @@ namespace PortaCapena.OdooJsonRpcClient
             var result = await CallAndDeserializeAsync<long[]>(request, cancellationToken);
             return result.Succeed ? result.ToResult(result.Value) : OdooResult<long[]>.FailedResult(result);
         }
-        public async Task<OdooResult<long[]>> CreateAsync(IEnumerable<OdooDictionaryModel> models, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<long[]>> CreateAsync(IEnumerable<OdooDictionaryModel> models, OdooContext context = null, CancellationToken cancellationToken = default)
         {
-            return await ExecuteWitrAccesDenideRetryAsync(userUid => CreateAsync(Config, userUid, models, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
+            return ExecuteWithAccessDeniedRetryAsync(userUid => CreateAsync(Config, userUid, models, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
         }
         public async Task<OdooResult<long[]>> CreateAsync(OdooConfig odooConfig, int userUid, IEnumerable<OdooDictionaryModel> models, OdooContext context = null, CancellationToken cancellationToken = default)
         {
@@ -162,23 +162,23 @@ namespace PortaCapena.OdooJsonRpcClient
             var result = await CallAndDeserializeAsync<long[]>(request, cancellationToken);
             return result.Succeed ? result.ToResult(result.Value) : OdooResult<long[]>.FailedResult(result);
         }
-        public async Task<OdooResult<object>> ActionAsync(string tableName, string action, object param, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<object>> ActionAsync(string tableName, string action, object param, OdooContext context = null, CancellationToken cancellationToken = default)
         {
-            return await ExecuteWitrAccesDenideRetryAsync(userUid => ActionAsync(Config, userUid, tableName, action, param, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
+            return ExecuteWithAccessDeniedRetryAsync(userUid => ActionAsync(Config, userUid, tableName, action, param, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
         }
-        public async Task<OdooResult<object>> ActionAsync(OdooConfig odooConfig, int userUid, string tableName, string action, object model
-            , OdooContext context = null, CancellationToken cancellationToken = default)
+        public async Task<OdooResult<object>> ActionAsync(OdooConfig odooConfig, int userUid, string tableName, string action, object model,
+                                                          OdooContext context = null, CancellationToken cancellationToken = default)
         {
             var request = OdooRequestModel.Action(odooConfig, userUid, tableName, action, model, context);
             var result = await CallAndDeserializeAsync<object>(request, cancellationToken);
             return result.Succeed ? result.ToResult(result.Value) : OdooResult<object>.FailedResult(result);
         }
-        public async Task<OdooResult<object>> ActionCollectionAsync(string tableName, string action, object param, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<object>> ActionCollectionAsync(string tableName, string action, object param, OdooContext context = null, CancellationToken cancellationToken = default)
         {
-            return await ExecuteWitrAccesDenideRetryAsync(userUid => ActionCollectionAsync(Config, userUid, tableName, action, param, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
+            return ExecuteWithAccessDeniedRetryAsync(userUid => ActionCollectionAsync(Config, userUid, tableName, action, param, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
         }
-        public async Task<OdooResult<object>> ActionCollectionAsync(OdooConfig odooConfig, int userUid, string tableName, string action, object model
-            , OdooContext context = null, CancellationToken cancellationToken = default)
+        public async Task<OdooResult<object>> ActionCollectionAsync(OdooConfig odooConfig, int userUid, string tableName, string action, object model,
+                                                                    OdooContext context = null, CancellationToken cancellationToken = default)
         {
             var request = OdooRequestModel.ActionCollection(odooConfig, userUid, tableName, action, model, context);
             var result = await CallAndDeserializeAsync<object>(request, cancellationToken);
@@ -189,26 +189,26 @@ namespace PortaCapena.OdooJsonRpcClient
 
         #region  Update
 
-        public async Task<OdooResult<bool>> UpdateAsync(IOdooCreateModel model, long id, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<bool>> UpdateAsync(IOdooCreateModel model, long id, OdooContext context = null, CancellationToken cancellationToken = default)
         {
-            return await UpdateRangeAsync(model, new[] { id }, SelectContext(context, Config.Context), cancellationToken);
+            return UpdateRangeAsync(model, new[] { id }, SelectContext(context, Config.Context), cancellationToken);
         }
-        public async Task<OdooResult<bool>> UpdateAsync(OdooConfig odooConfig, int userUid, IOdooCreateModel model, long id, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<bool>> UpdateAsync(OdooConfig odooConfig, int userUid, IOdooCreateModel model, long id, OdooContext context = null, CancellationToken cancellationToken = default)
         {
-            return await UpdateRangeAsync(odooConfig, userUid, model, new[] { id }, context, cancellationToken);
+            return UpdateRangeAsync(odooConfig, userUid, model, new[] { id }, context, cancellationToken);
         }
-        public async Task<OdooResult<bool>> UpdateAsync(OdooDictionaryModel model, long id, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<bool>> UpdateAsync(OdooDictionaryModel model, long id, OdooContext context = null, CancellationToken cancellationToken = default)
         {
-            return await UpdateRangeAsync(model, new[] { id }, SelectContext(context, Config.Context), cancellationToken);
+            return UpdateRangeAsync(model, new[] { id }, SelectContext(context, Config.Context), cancellationToken);
         }
-        public async Task<OdooResult<bool>> UpdateAsync(OdooConfig odooConfig, int userUid, OdooDictionaryModel model, long id, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<bool>> UpdateAsync(OdooConfig odooConfig, int userUid, OdooDictionaryModel model, long id, OdooContext context = null, CancellationToken cancellationToken = default)
         {
-            return await UpdateRangeAsync(odooConfig, userUid, model, new[] { id }, context, cancellationToken);
+            return UpdateRangeAsync(odooConfig, userUid, model, new[] { id }, context, cancellationToken);
         }
 
-        public async Task<OdooResult<bool>> UpdateRangeAsync(IOdooCreateModel model, long[] ids, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<bool>> UpdateRangeAsync(IOdooCreateModel model, long[] ids, OdooContext context = null, CancellationToken cancellationToken = default)
         {
-            return await ExecuteWitrAccesDenideRetryAsync(userUid => UpdateRangeAsync(Config, userUid, model, ids, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
+            return ExecuteWithAccessDeniedRetryAsync(userUid => UpdateRangeAsync(Config, userUid, model, ids, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
         }
         public async Task<OdooResult<bool>> UpdateRangeAsync(OdooConfig odooConfig, int userUid, IOdooCreateModel model, long[] ids, OdooContext context = null, CancellationToken cancellationToken = default)
         {
@@ -216,61 +216,61 @@ namespace PortaCapena.OdooJsonRpcClient
             var request = OdooRequestModel.Update(odooConfig, userUid, tableName, ids, model, context);
             return await CallAndDeserializeAsync<bool>(request, cancellationToken);
         }
-        public async Task<OdooResult<bool>> UpdateRangeAsync(OdooDictionaryModel model, long[] ids, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<bool>> UpdateRangeAsync(OdooDictionaryModel model, long[] ids, OdooContext context = null, CancellationToken cancellationToken = default)
         {
-            return await ExecuteWitrAccesDenideRetryAsync(userUid => UpdateRangeAsync(Config, userUid, model, ids, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
+            return ExecuteWithAccessDeniedRetryAsync(userUid => UpdateRangeAsync(Config, userUid, model, ids, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
         }
-        public async Task<OdooResult<bool>> UpdateRangeAsync(OdooConfig odooConfig, int userUid, OdooDictionaryModel model, long[] ids, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<bool>> UpdateRangeAsync(OdooConfig odooConfig, int userUid, OdooDictionaryModel model, long[] ids, OdooContext context = null, CancellationToken cancellationToken = default)
         {
             var request = OdooRequestModel.Update(odooConfig, userUid, GetTableName(model), ids, model, context);
-            return await CallAndDeserializeAsync<bool>(request, cancellationToken);
+            return CallAndDeserializeAsync<bool>(request, cancellationToken);
         }
 
         #endregion
 
         #region  Delete
 
-        public async Task<OdooResult<bool>> DeleteAsync(IOdooModel model, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<bool>> DeleteAsync(IOdooModel model, OdooContext context = null, CancellationToken cancellationToken = default)
         {
-            return await DeleteAsync(model.OdooTableName(), model.Id, SelectContext(context, Config.Context), cancellationToken);
+            return DeleteAsync(model.OdooTableName(), model.Id, SelectContext(context, Config.Context), cancellationToken);
         }
-        public async Task<OdooResult<bool>> DeleteAsync(string tableName, long id, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<bool>> DeleteAsync(string tableName, long id, OdooContext context = null, CancellationToken cancellationToken = default)
         {
-            return await DeleteRangeAsync(tableName, new[] { id }, SelectContext(context, Config.Context), cancellationToken);
+            return DeleteRangeAsync(tableName, new[] { id }, SelectContext(context, Config.Context), cancellationToken);
         }
-        public async Task<OdooResult<bool>> DeleteAsync(OdooConfig odooConfig, int userUid, string tableName, long id, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<bool>> DeleteAsync(OdooConfig odooConfig, int userUid, string tableName, long id, OdooContext context = null, CancellationToken cancellationToken = default)
         {
-            return await DeleteRangeAsync(odooConfig, userUid, tableName, new[] { id }, context, cancellationToken);
+            return DeleteRangeAsync(odooConfig, userUid, tableName, new[] { id }, context, cancellationToken);
         }
 
-        public async Task<OdooResult<bool>> DeleteRangeAsync(IOdooModel[] models, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<bool>> DeleteRangeAsync(IOdooModel[] models, OdooContext context = null, CancellationToken cancellationToken = default)
         {
             var tableName = models.First().OdooTableName();
             if (models.Any(x => !string.Equals(x.OdooTableName(), tableName)))
                 throw new ArgumentException("Models are not from the same odoo table");
 
-            return await DeleteRangeAsync(tableName, models.Select(x => x.Id).ToArray(), SelectContext(context, Config.Context), cancellationToken);
+            return DeleteRangeAsync(tableName, models.Select(x => x.Id).ToArray(), SelectContext(context, Config.Context), cancellationToken);
         }
-        public async Task<OdooResult<bool>> DeleteRangeAsync(string tableName, long[] ids, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<bool>> DeleteRangeAsync(string tableName, long[] ids, OdooContext context = null, CancellationToken cancellationToken = default)
         {
-            return await ExecuteWitrAccesDenideRetryAsync(userUid => DeleteRangeAsync(Config, userUid, tableName, ids, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
+            return ExecuteWithAccessDeniedRetryAsync(userUid => DeleteRangeAsync(Config, userUid, tableName, ids, SelectContext(context, Config.Context), cancellationToken), cancellationToken);
         }
-        public async Task<OdooResult<bool>> DeleteRangeAsync(OdooConfig odooConfig, int userUid, string tableName, long[] ids, OdooContext context = null, CancellationToken cancellationToken = default)
+        public Task<OdooResult<bool>> DeleteRangeAsync(OdooConfig odooConfig, int userUid, string tableName, long[] ids, OdooContext context = null, CancellationToken cancellationToken = default)
         {
             var request = OdooRequestModel.Delete(odooConfig, userUid, tableName, ids, context);
-            return await CallAndDeserializeAsync<bool>(request, cancellationToken);
+            return CallAndDeserializeAsync<bool>(request, cancellationToken);
         }
 
         #endregion
 
         #region Login
 
-        public async Task<OdooResult<int>> GetCurrentUserUidOrLoginAsync(CancellationToken cancellationToken = default)
+        public Task<OdooResult<int>> GetCurrentUserUidOrLoginAsync(CancellationToken cancellationToken = default)
         {
             if (_userUid.HasValue)
-                return await Task.FromResult(OdooResult<int>.SucceedResult(_userUid.Value));
+                return Task.FromResult(OdooResult<int>.SucceedResult(_userUid.Value));
 
-            return await LoginAsync(cancellationToken);
+            return LoginAsync(cancellationToken);
         }
         public async Task<OdooResult<int>> LoginAsync(CancellationToken cancellationToken = default)
         {
@@ -281,43 +281,43 @@ namespace PortaCapena.OdooJsonRpcClient
 
             return result;
         }
-        public async Task<OdooResult<int>> LoginAsync(OdooConfig odooConfig, CancellationToken cancellationToken = default)
+        public Task<OdooResult<int>> LoginAsync(OdooConfig odooConfig, CancellationToken cancellationToken = default)
         {
             var request = OdooRequestModel.Login(odooConfig);
-            return await CallAndDeserializeAsync<int>(request, cancellationToken);
+            return CallAndDeserializeAsync<int>(request, cancellationToken);
         }
 
         #endregion
 
         #region Build C# Model
 
-        public async Task<OdooResult<Dictionary<string, OdooPropertyInfo>>> GetModelAsync(string tableName)
+        public Task<OdooResult<Dictionary<string, OdooPropertyInfo>>> GetModelAsync(string tableName)
         {
-            return await ExecuteWitrAccesDenideRetryAsync(userUid => GetModelAsync(Config, userUid, tableName));
+            return ExecuteWithAccessDeniedRetryAsync(userUid => GetModelAsync(Config, userUid, tableName));
         }
-        public async Task<OdooResult<Dictionary<string, OdooPropertyInfo>>> GetModelAsync(OdooConfig odooConfig, int userUid, string tableName, CancellationToken cancellationToken = default)
+        public Task<OdooResult<Dictionary<string, OdooPropertyInfo>>> GetModelAsync(OdooConfig odooConfig, int userUid, string tableName, CancellationToken cancellationToken = default)
         {
             var request = OdooRequestModel.ModelFields(odooConfig, userUid, tableName);
-            return await CallAndDeserializeAsync<Dictionary<string, OdooPropertyInfo>>(request, cancellationToken);
+            return CallAndDeserializeAsync<Dictionary<string, OdooPropertyInfo>>(request, cancellationToken);
         }
 
         #endregion
 
         #region Version
 
-        public async Task<OdooResult<OdooVersion>> GetVersionAsync(CancellationToken cancellationToken = default)
+        public Task<OdooResult<OdooVersion>> GetVersionAsync(CancellationToken cancellationToken = default)
         {
-            return await GetVersionAsync(Config, cancellationToken);
+            return GetVersionAsync(Config, cancellationToken);
         }
-        public async Task<OdooResult<OdooVersion>> GetVersionAsync(OdooConfig odooConfig, CancellationToken cancellationToken = default)
+        public Task<OdooResult<OdooVersion>> GetVersionAsync(OdooConfig odooConfig, CancellationToken cancellationToken = default)
         {
             var request = OdooRequestModel.Version(odooConfig);
-            return await CallAndDeserializeAsync<OdooVersion>(request, cancellationToken);
+            return CallAndDeserializeAsync<OdooVersion>(request, cancellationToken);
         }
 
         #endregion
 
-        private async Task<OdooResult<TResult>> ExecuteWitrAccesDenideRetryAsync<TResult>(Func<int, Task<OdooResult<TResult>>> func, CancellationToken cancellationToken = default)
+        private async Task<OdooResult<TResult>> ExecuteWithAccessDeniedRetryAsync<TResult>(Func<int, Task<OdooResult<TResult>>> func, CancellationToken cancellationToken = default)
         {
             var userUid = await GetCurrentUserUidOrLoginAsync(cancellationToken);
             if (userUid.Failed)
@@ -357,19 +357,13 @@ namespace PortaCapena.OdooJsonRpcClient
             return result;
         }
 
-
-        private static string GetTableName(OdooDictionaryModel model, string tableName = null)
+        private static string GetTableName(OdooDictionaryModel model)
         {
-            if (tableName != null)
-                return tableName;
-            else if (model.TableName != null)
-                return model.TableName;
-            else
-                throw new ArgumentException(
-                    $"TableName not set in {nameof(OdooDictionaryModel)}, use ctor or {nameof(OdooDictionaryModel.Create)} method with param");
+            return model?.TableName 
+                ?? throw new ArgumentException($"TableName not set in {nameof(OdooDictionaryModel)}");
         }
 
-        private OdooContext SelectContext(OdooContext paramContext, OdooContext mainContext)
+        private static OdooContext SelectContext(OdooContext paramContext, OdooContext mainContext)
         {
             return paramContext ?? mainContext;
         }
