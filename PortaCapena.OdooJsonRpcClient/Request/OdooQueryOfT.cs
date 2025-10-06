@@ -135,7 +135,7 @@ namespace PortaCapena.OdooJsonRpcClient.Request
 
         public OdooQuery<T> Take(int limit)
         {
-            this.Limit = limit;
+            Limit = limit;
             return this;
         }
         public OdooQuery<T> Skip(int offset)
@@ -151,25 +151,25 @@ namespace PortaCapena.OdooJsonRpcClient.Request
         public OdooQuery<T> OrderBy(Expression<Func<T, object>> expression)
         {
             var odooPropertyName = OdooExpresionMapper.GetOdooPropertyName(expression);
-            this.Order = $"{odooPropertyName} ASC";
+            Order = $"{odooPropertyName} ASC";
             return this;
         }
         public OdooQuery<T> OrderByDescending(Expression<Func<T, object>> expression)
         {
             var odooPropertyName = OdooExpresionMapper.GetOdooPropertyName(expression);
-            this.Order = $"{odooPropertyName} DESC";
+            Order = $"{odooPropertyName} DESC";
             return this;
         }
         public OdooQuery<T> ThenOrderBy(Expression<Func<T, object>> expression)
         {
             var odooPropertyName = OdooExpresionMapper.GetOdooPropertyName(expression);
-            this.Order += $", {odooPropertyName} ASC";
+            Order += $", {odooPropertyName} ASC";
             return this;
         }
         public OdooQuery<T> ThenOrderByDescending(Expression<Func<T, object>> expression)
         {
             var odooPropertyName = OdooExpresionMapper.GetOdooPropertyName(expression);
-            this.Order += $", {odooPropertyName} DESC";
+            Order += $", {odooPropertyName} DESC";
             return this;
         }
 

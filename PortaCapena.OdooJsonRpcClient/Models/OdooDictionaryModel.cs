@@ -67,61 +67,41 @@ namespace PortaCapena.OdooJsonRpcClient.Models
 
         protected void AddFromExpresion<T>(Expression<Func<T>> expression) where T : IOdooAtributtesModel, new()
         {
-            if (!(expression.Body is MemberInitExpression body)) throw new ArgumentException("Invalid Func");
+            if (!(expression.Body is MemberInitExpression body)) 
+                throw new ArgumentException("Invalid Func");
 
             foreach (var memberExpression in body.Bindings)
             {
-                if (memberExpression is MemberAssignment memberExp)
+                if (!(memberExpression is MemberAssignment memberExp))
+                    throw new ArgumentException("Invalid Func");
+                
+                var property = (PropertyInfo)memberExpression.Member;
+                var attribute = property.GetCustomAttributes<JsonPropertyAttribute>();
+
+                var odooName = attribute.FirstOrDefault()?.PropertyName;
+
+                if (odooName == null)
+                    throw new ArgumentException("Invalid Func");
+
+                switch (memberExp.Expression)
                 {
-                    var property = (PropertyInfo)memberExpression.Member;
-                    var attribute = property.GetCustomAttributes<JsonPropertyAttribute>();
-
-                    var odooName = attribute.FirstOrDefault()?.PropertyName;
-
-                    if (odooName != null)
+                    case ConstantExpression constantExpression:
                     {
-                        switch (memberExp.Expression)
-                        {
-                            case ConstantExpression constantExpression:
-                                {
-                                    var value = constantExpression.Value;
-                                    this[odooName] = value;
-                                    continue;
-                                }
-                            case MemberExpression memberExpr:
-                                {
-                                    var value = Expression.Lambda(memberExpr).Compile().DynamicInvoke();
-                                    this[odooName] = value;
-                                    continue;
-                                }
-                            case UnaryExpression unaryExpression:
-                                {
-                                    var value = Expression.Lambda(unaryExpression).Compile().DynamicInvoke();
-                                    this[odooName] = value;
-                                    continue;
-                                }
-                            case MethodCallExpression methodCallExpression:
-                                {
-                                    var value = Expression.Lambda(methodCallExpression).Compile().DynamicInvoke();
-                                    this[odooName] = value;
-                                    continue;
-                                }
-                            case NewExpression memberInitExpression:
-                                {
-                                    var value = Expression.Lambda(memberInitExpression).Compile().DynamicInvoke();
-                                    this[odooName] = value;
-                                    continue;
-                                }
-                            case NewArrayExpression newArrayExpression:
-                                {
-                                    var value = Expression.Lambda(newArrayExpression).Compile().DynamicInvoke();
-                                    this[odooName] = value;
-                                    continue;
-                                }
-                        }
+                        this[odooName] = constantExpression.Value;
+                        continue;
                     }
+                    case MemberExpression _:
+                    case UnaryExpression _:
+                    case MethodCallExpression _:
+                    case NewExpression _:
+                    case NewArrayExpression _:
+                    {
+                        this[odooName] = Expression.Lambda(memberExp.Expression).Compile().DynamicInvoke();
+                        continue;
+                    }
+                    default:
+                        throw new ArgumentException("Invalid Func");
                 }
-                throw new ArgumentException("Invalid Func");
             }
         }
 

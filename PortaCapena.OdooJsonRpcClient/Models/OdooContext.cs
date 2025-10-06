@@ -7,44 +7,44 @@ namespace PortaCapena.OdooJsonRpcClient.Models
     {
         public string Language
         {
-            get => TryGetValue("lang", out var result) ? result as string : default;
+            get => TryGetValue("lang", out var result) ? result as string : null;
             set => SetValue("lang", value);
         }
 
         public string Timezone
         {
-            get => TryGetValue("tz", out var result) ? result as string : default;
+            get => TryGetValue("tz", out var result) ? result as string : null;
             set => SetValue("tz", value);
         }
 
         public string Tag
         {
-            get => TryGetValue("tag", out var result) ? result as string : default;
+            get => TryGetValue("tag", out var result) ? result as string : null;
             set => SetValue("tag", value);
         }
 
         public string ActiveModel
         {
-            get => TryGetValue("active_model", out var result) ? result as string : default;
+            get => TryGetValue("active_model", out var result) ? result as string : null;
             set => SetValue("active_model", value);
         }
 
         public bool? DefaultIsCompany
         {
-            get => TryGetValue("default_is_company", out var result) ? result as bool? : default;
+            get => TryGetValue("default_is_company", out var result) ? result as bool? : null;
             set => SetValue("default_is_company", value);
         }
 
         public long? ForceCompany
         {
-            get => TryGetValue("force_company", out var result) ? result as long? : default;
+            get => TryGetValue("force_company", out var result) ? result as long? : null;
             set => SetValue("force_company", value);
         }
 
         public long? AllowedCompanyId
         {
-            get => TryGetValue("allowed_company_ids", out var result) ? (result as long[])?.FirstOrDefault() : default;
-            set => SetValue("allowed_company_ids", value.HasValue ? new long[] { value.Value } : default);
+            get => TryGetValue("allowed_company_ids", out var result) ? (result as long[])?.FirstOrDefault() : null;
+            set => SetValue("allowed_company_ids", value.HasValue ? new long[] { value.Value } : null);
         }
 
 

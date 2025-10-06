@@ -30,10 +30,10 @@ namespace PortaCapena.OdooJsonRpcClient.Request
         }
         public OdooRequestModel(int id, string jsonrpcVersion, string method, OdooRequestParams requestParams)
         {
-            this.Id = id;
-            this.Jsonrpc = jsonrpcVersion;
-            this.Method = method;
-            this.Params = requestParams;
+            Id = id;
+            Jsonrpc = jsonrpcVersion;
+            Method = method;
+            Params = requestParams;
         }
 
         public static OdooRequestModel Version(OdooConfig config)
