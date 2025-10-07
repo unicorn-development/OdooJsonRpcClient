@@ -20,10 +20,10 @@ namespace PortaCapena.OdooJsonRpcClient.Request
 
         public OdooRequestParams(string url, string service, string method, params object[] paramethers)
         {
-            this.Url = url;
-            this.Service = service;
-            this.Method = method;
-            this.Args = PrepareParams(paramethers);
+            Url = url;
+            Service = service;
+            Method = method;
+            Args = PrepareParams(paramethers);
         }
 
         protected object[] PrepareParams(object[] paramethers)

@@ -78,7 +78,7 @@ namespace PortaCapena.OdooJsonRpcClient.Models
         public bool? Attachment { get; set; }
 
         [JsonIgnore]
-        public OdooValueTypeEnum PropertyValueType => ToOdooValueTypeEnum(this.Type);
+        public OdooValueTypeEnum PropertyValueType => ToOdooValueTypeEnum(Type);
 
         public static OdooValueTypeEnum ToOdooValueTypeEnum(string value)
         {

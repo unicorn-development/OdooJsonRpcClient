@@ -14,37 +14,58 @@ namespace PortaCapena.OdooJsonRpcClient.Utils
             return new OdooFilter { OdooExtensions.GetOdooPropertyName<T>(propertyname), odooOperator.Description(), value };
         }
 
-        public static OdooFilter ToOdooExpresion<T>(object left, OdooOperator odooOperator, object right) where T : IOdooModel, new()
+        public static OdooFilter ToOdooExpresion<T>(object left, OdooOperator odooOperator, object right)
+            where T : IOdooModel, new()
         {
-            OdooFilter result;
+            return ToOdooExpresion<T>(left, odooOperator, right, 0);
+        }
 
-            if (left is string member && right is object value)
-                result = ToOdooExpresion<T>(member, odooOperator, value);
-
-            else if (left is object constant && right is string memberExpression)
-                result = ToOdooExpresion<T>(memberExpression, odooOperator, constant);
-
-            else if (left.GetType().IsArray && right.GetType().IsArray)
+        private static OdooFilter ToOdooExpresion<T>(object left, OdooOperator odooOperator, object right, int depth) 
+            where T : IOdooModel, new()
+        {
+            if (depth > 100) //should always be safe
             {
-                var leftArray = left as object[];
-                var rightArray = right as object[];
-                if ((leftArray != null && leftArray.Length == 3 && leftArray.All(x => x != null) && leftArray[1] is OdooOperator leftOperator) &&
-                    (rightArray != null && rightArray.Length == 3 && rightArray.All(x => x != null) && rightArray[1] is OdooOperator rightOperator))
-                {
-                    result = new OdooFilter
-                    {
-                        ToOdooExpresion<T>(leftArray[0], leftOperator, leftArray[2]),
-                        odooOperator.Description(),
-                        ToOdooExpresion<T>(rightArray[0], rightOperator, rightArray[2])
-                    };
-                }
-                else
-                    throw new ArgumentException("Invalid expresion");
+                throw new Exception("Invalid expression: OdooFilter depth exceeds 100");
             }
-            else
-                throw new ArgumentException("Incalid Expresion");
-         
-            return result;
+            
+            if (left is string leftMember)
+            {
+                return ToOdooExpresion<T>(leftMember, odooOperator, right);
+            }
+    
+            if (right is string rightMember)
+            {
+                return ToOdooExpresion<T>(rightMember, odooOperator, left);
+            }
+
+            if (!(left is object[] leftArray) || !(right is object[] rightArray))
+            {
+                throw new ArgumentException("Invalid expression: Unsupported operand types");
+            }
+
+            if (!IsValidOdooArray(leftArray) || !IsValidOdooArray(rightArray))
+            {
+                throw new ArgumentException("Invalid expression: Arrays must have exactly 3 non-null elements with operator at index 1");
+            }
+        
+            var leftFilter = ToOdooExpresion<T>(leftArray[0], (OdooOperator)leftArray[1], leftArray[2], ++depth);
+            var rightFilter = ToOdooExpresion<T>(rightArray[0], (OdooOperator)rightArray[1], rightArray[2], depth);
+            
+            return new OdooFilter 
+            { 
+                leftFilter,
+                odooOperator.Description(),
+                rightFilter
+            };
+        }
+
+        private static bool IsValidOdooArray(object[] array)
+        {
+            return array != null 
+                && array.Length == 3 
+                && array[0] != null 
+                && array[1] is OdooOperator
+                && array[2] != null;
         }
     }
 }

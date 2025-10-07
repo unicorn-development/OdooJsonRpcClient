@@ -10,7 +10,7 @@ namespace PortaCapena.OdooJsonRpcClient.Attributes
 
         public OdooTableNameAttribute(string name)
         {
-            this.Name = name;
+            Name = name;
             Version = 1.0;
         }
     }
