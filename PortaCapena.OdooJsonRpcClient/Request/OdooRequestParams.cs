@@ -26,10 +26,9 @@ namespace PortaCapena.OdooJsonRpcClient.Request
             Args = RemoveTrailingNulls(parameters);
         }
 
-        /** <summary>
-         * Removes all trailing null values from the end of the parameter array and returns the cleaned array.
-         * </summary>
-         */
+        /// <summary>
+        /// Removes all trailing null values from the end of the parameter array and returns the cleaned array.
+        /// </summary>
         protected static object[] RemoveTrailingNulls(object[] parameters)
         {
             //if null or empty, return empty array
