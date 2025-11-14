@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace PortaCapena.OdooJsonRpcClient.Request
 {
@@ -18,23 +18,40 @@ namespace PortaCapena.OdooJsonRpcClient.Request
         [JsonIgnore]
         public string Url { get; }
 
-        public OdooRequestParams(string url, string service, string method, params object[] paramethers)
+        public OdooRequestParams(string url, string service, string method, params object[] parameters)
         {
             Url = url;
             Service = service;
             Method = method;
-            Args = PrepareParams(paramethers);
+            Args = RemoveTrailingNulls(parameters);
         }
 
-        protected object[] PrepareParams(object[] paramethers)
+        /// <summary>
+        /// Removes all trailing null values from the end of the parameter array and returns the cleaned array.
+        /// </summary>
+        protected static object[] RemoveTrailingNulls(object[] parameters)
         {
-            var list = paramethers.ToList();
-            for (int i = list.Count - 1; i >= 0; i--)
-            {
-                if (list[i] == null) list.RemoveAt(i);
-                else break;
-            }
-            return list.ToArray();
+            //if null or empty, return empty array
+            if (parameters == null || parameters.Length == 0)
+                return Array.Empty<object>();
+
+            //get new array length without trailing nulls
+            var length = parameters.Length;
+            while (length > 0 && parameters[length - 1] == null)
+                length--;
+            
+            //if all nulls, return empty array
+            if (length == 0)
+                return Array.Empty<object>();
+            
+            //if no trailing nulls, return original array
+            if (length == parameters.Length)
+                return parameters;
+            
+            //otherwise allocate new array and copy values
+            var result = new object[length];
+            Array.Copy(parameters, result, length);
+            return result;
         }
     }
 }
