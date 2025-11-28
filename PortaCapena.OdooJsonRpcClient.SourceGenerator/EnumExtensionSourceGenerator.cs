@@ -27,9 +27,9 @@ public class EnumExtensionSourceGenerator : ISourceGenerator
             var nodes = tree.GetRoot().DescendantNodes()
                 .OfType<EnumDeclarationSyntax>();
 
-            foreach (var enumDecl in nodes)
+            foreach (var enumDeclaration in nodes)
             {
-                if (semantic.GetDeclaredSymbol(enumDecl) is not INamedTypeSymbol enumSymbol)
+                if (semantic.GetDeclaredSymbol(enumDeclaration) is not INamedTypeSymbol enumSymbol)
                     continue;
 
                 sb.AppendLine($"        public static string Description(this {enumSymbol.ToDisplayString()} value)");
@@ -37,17 +37,22 @@ public class EnumExtensionSourceGenerator : ISourceGenerator
                 sb.AppendLine("            switch (value)");
                 sb.AppendLine("            {");
 
-                foreach (var m in enumSymbol.GetMembers()
+                foreach (var enumField in enumSymbol.GetMembers()
                              .OfType<IFieldSymbol>()
                              .Where(m => m.HasConstantValue))
                 {
-                    var attr = m.GetAttributes()
+                    var attribute = enumField.GetAttributes()
                         .FirstOrDefault(a => a.AttributeClass?.ToString() == "System.ComponentModel.DescriptionAttribute");
 
-                    if (attr?.ConstructorArguments.First().Value is string desc)
+                    var constructorArguments = attribute?.ConstructorArguments;
+
+                    if (constructorArguments?.IsDefaultOrEmpty ?? true)
+                        continue;
+
+                    if (constructorArguments.Value.First().Value is string description)
                     {
-                        sb.AppendLine(
-                            $"                case {enumSymbol.ToDisplayString()}.{m.Name}: return \"{desc}\";");
+                        var classPath = enumSymbol.ToDisplayString();
+                        sb.AppendLine($"                case {classPath}.{enumField.Name}: return \"{description}\";");
                     }
                 }
 

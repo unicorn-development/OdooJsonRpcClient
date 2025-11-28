@@ -28,7 +28,7 @@ public class OdooEnumExtensionTests
     }
     
     [Fact]
-    public void TestOdooValueExtension()
+    public void TestOdooDescriptionExtension()
     {
         var enumValues = typeof(OdooOperator).GetEnumValues();
         foreach (OdooOperator enumValue in enumValues)
