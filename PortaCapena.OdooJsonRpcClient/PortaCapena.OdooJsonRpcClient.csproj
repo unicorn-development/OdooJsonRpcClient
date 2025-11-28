@@ -26,6 +26,12 @@
     <None Include="../README.md" Pack="true" PackagePath=""/>
     <None Include="../LICENSE.md" Pack="true" PackagePath=""/>
   </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\PortaCapena.OdooJsonRpcClient.SourceGenerator\PortaCapena.OdooJsonRpcClient.SourceGenerator.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
