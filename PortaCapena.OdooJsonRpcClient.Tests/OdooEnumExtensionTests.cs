@@ -9,7 +9,7 @@ namespace PortaCapena.OdooJsonRpcClient.Tests;
 
 public class OdooEnumExtensionTests
 {
-    public static string DescriptionOldReflexion(Enum value)
+    public static string DescriptionOldReflection(Enum value)
     {
         try
         {
@@ -33,7 +33,7 @@ public class OdooEnumExtensionTests
         var enumValues = typeof(OdooOperator).GetEnumValues();
         foreach (OdooOperator enumValue in enumValues)
         {
-            Assert.Equal(enumValue.Description(), DescriptionOldReflexion(enumValue));
+            Assert.Equal(enumValue.Description(), DescriptionOldReflection(enumValue));
         }
     }
 }
