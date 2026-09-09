@@ -343,7 +343,7 @@ namespace PortaCapena.OdooJsonRpcClient
                 var result = JsonConvert.DeserializeObject<OdooResult<T>>(responseString);
                 return result;
             }
-            catch (Exception e)
+            catch (Exception e) when (!(e is OperationCanceledException))
             {
                 return OdooResult<T>.FailedResult(e.ToString());
             }
